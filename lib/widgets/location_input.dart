@@ -1,5 +1,6 @@
 import 'package:favorite_places/widgets/border_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:location/location.dart';
 
 class LocationInput extends StatefulWidget {
@@ -16,6 +17,8 @@ class _LocationInputState extends State<LocationInput> {
   bool _isGettingLocation = false;
 
   void _getCurrentLocation() async {
+    print(dotenv.env['GOOGLE_API_KEY']);
+
     Location location = Location();
 
     bool serviceEnabled;
