@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:favorite_places/models/place_location.dart';
 import 'package:favorite_places/utils/constants.dart';
 import 'package:favorite_places/widgets/border_decoration.dart';
+import 'package:favorite_places/screens/map.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key, required this.onSelecteLocation});
@@ -58,15 +60,28 @@ class _LocationInputState extends State<LocationInput> {
     final lat = locationData.latitude;
     final lng = locationData.longitude;
     if (lat == null || lng == null) return;
+    _saveLocation(lat, lng);
+  }
+
+  void _selectOnMap() async {
+    final picketLocation =
+        await Navigator.of(context).push<LatLng>(MaterialPageRoute(
+      builder: (ctx) => const MapScreen(),
+    ));
+    if (picketLocation == null) return;
+    _saveLocation(picketLocation.latitude, picketLocation.longitude);
+  }
+
+  void _saveLocation(double latitude, double longitude) async {
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${Constants.googleApiKey}');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${Constants.googleApiKey}');
     final response = await http.get(url);
     final responseData = json.decode(response.body);
     final address = responseData['results'][0]
         ['formatted_address']; //based on the Geocoding API documentation
     setState(() {
       _isGettingLocation = false;
-      _pickedLocation = PlaceLocation(lat, lng, address);
+      _pickedLocation = PlaceLocation(latitude, longitude, address);
     });
     widget.onSelecteLocation(_pickedLocation!);
   }
@@ -108,7 +123,7 @@ class _LocationInputState extends State<LocationInput> {
                 icon: const Icon(Icons.location_on),
                 label: const Text('Get current location')),
             TextButton.icon(
-                onPressed: () {},
+                onPressed: _selectOnMap,
                 icon: const Icon(Icons.map),
                 label: const Text('Select on Map')),
           ],
