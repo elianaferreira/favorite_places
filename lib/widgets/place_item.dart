@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/screens/place_detail.dart';
-import 'package:flutter/material.dart';
 
 class PlaceItem extends StatelessWidget {
   const PlaceItem({super.key, required this.place});
@@ -11,6 +12,7 @@ class PlaceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(place.title),
+      subtitle: Text(place.location.address),
       leading: CircleAvatar(
         radius: 26,
         backgroundImage: FileImage(place.image),

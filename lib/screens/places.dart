@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:favorite_places/utils/dimens.dart';
 import 'package:favorite_places/providers/places_provider.dart';
 import 'package:favorite_places/screens/new_place.dart';
 import 'package:favorite_places/widgets/place_item.dart';
@@ -30,7 +31,7 @@ class PlacesScreen extends ConsumerWidget {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(Dimens.padding),
           child: favoritePlaces.isEmpty
               ? emptyContent
               : ListView.builder(

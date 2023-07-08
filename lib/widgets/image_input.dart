@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:favorite_places/widgets/border_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:favorite_places/widgets/border_decoration.dart';
+
 class ImageInput extends StatefulWidget {
-  ImageInput({super.key, required this.onPickImage});
+  const ImageInput({super.key, required this.onPickImage});
 
   final void Function(File image) onPickImage;
 

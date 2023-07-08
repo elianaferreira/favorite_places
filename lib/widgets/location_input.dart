@@ -1,16 +1,17 @@
 import 'dart:convert';
 
-import 'package:favorite_places/models/place_location.dart';
-import 'package:favorite_places/widgets/border_decoration.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
+import 'package:flutter/material.dart';
 
-final googleApiKey = dotenv.env['GOOGLE_API_KEY'];
+import 'package:favorite_places/models/place_location.dart';
+import 'package:favorite_places/utils/constants.dart';
+import 'package:favorite_places/widgets/border_decoration.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  const LocationInput({super.key, required this.onSelecteLocation});
+
+  final void Function(PlaceLocation placeLocation) onSelecteLocation;
 
   @override
   State<LocationInput> createState() {
@@ -24,7 +25,7 @@ class _LocationInputState extends State<LocationInput> {
 
   String get locationImage {
     if (_pickedLocation == null) return '';
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=${_pickedLocation!.latitude},${_pickedLocation!.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C${_pickedLocation!.latitude},${_pickedLocation!.longitude}&key=$googleApiKey';
+    return _pickedLocation!.locationImage;
   }
 
   void _getCurrentLocation() async {
@@ -58,7 +59,7 @@ class _LocationInputState extends State<LocationInput> {
     final lng = locationData.longitude;
     if (lat == null || lng == null) return;
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=$googleApiKey');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${Constants.googleApiKey}');
     final response = await http.get(url);
     final responseData = json.decode(response.body);
     final address = responseData['results'][0]
@@ -67,6 +68,7 @@ class _LocationInputState extends State<LocationInput> {
       _isGettingLocation = false;
       _pickedLocation = PlaceLocation(lat, lng, address);
     });
+    widget.onSelecteLocation(_pickedLocation!);
   }
 
   @override
