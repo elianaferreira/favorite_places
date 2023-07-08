@@ -19,4 +19,15 @@ class Place {
   void setImage(File image) {
     this.image = image;
   }
+
+  Map<String, Object> get mapToSaveInDB {
+    return {
+      'id': id,
+      'title': title,
+      'image': image.path,
+      'lat': location.latitude,
+      'lng': location.longitude,
+      'address': location.address
+    };
+  }
 }
