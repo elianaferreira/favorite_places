@@ -15,13 +15,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
       : super(
             const []); // added const to ensure no no update the data mistakenly
 
-  void addFavoritePlace(Place place) async {
-    final appDir = await syspaths.getApplicationDocumentsDirectory();
-    final fileName = path.basename(
-        place.image.path); //get the filename of the temporary image file
-    File copiedImage = await place.image.copy('${appDir.path}/$fileName');
-    place.setImage(copiedImage);
-
+  Future<Database> _getDatabase() async {
     final dbPath =
         await sql.getDatabasesPath(); //yiels the directory of the database
     final db = await sql.openDatabase(
@@ -31,8 +25,29 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
             'CREATE TABLE $tableName(id TEXT PRIMARY KEY, title TEXT, image TEXT, lat REAL, lng, REAL, address TEXT)');
       },
       version: 1,
-    ); //open an existing DB or create it
+    );
+    return db;
+  }
 
+  Future<void> loadPlaces() async {
+    final db = await _getDatabase();
+    final data = await db.query(tableName);
+    final places = data
+        .map((encodedPlace) => Place.getDecodedPlace(encodedPlace))
+        .toList();
+
+    state = places;
+  }
+
+  void addFavoritePlace(Place place) async {
+    final appDir = await syspaths.getApplicationDocumentsDirectory();
+    final fileName = path.basename(
+        place.image.path); //get the filename of the temporary image file
+    File copiedImage = await place.image.copy('${appDir.path}/$fileName');
+    place.setImage(copiedImage);
+
+    //open an existing DB or create it
+    final db = await _getDatabase();
     db.insert(tableName, place.mapToSaveInDB);
 
     final placeWasSavedBefore = state.contains(place);
