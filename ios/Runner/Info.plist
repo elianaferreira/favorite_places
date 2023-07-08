@@ -47,5 +47,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Grant the Gallery permission to pick your favorite places images.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Grant the Camera permission to take a photo of your favorite places.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Grant the microphone permission to record videos of your favorite places.</string>
 </dict>
 </plist>
