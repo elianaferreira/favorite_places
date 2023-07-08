@@ -13,6 +13,10 @@ class Place {
 
   final String id;
   final String title;
-  final File image;
+  File image;
   final PlaceLocation location;
+
+  void setImage(File image) {
+    this.image = image;
+  }
 }
