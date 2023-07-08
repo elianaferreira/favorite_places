@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 .env
+ios/Runner/Keys.swift
 
 # IntelliJ related
 *.iml

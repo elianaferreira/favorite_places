@@ -63,7 +63,7 @@ class _LocationInputState extends State<LocationInput> {
     final response = await http.get(url);
     final responseData = json.decode(response.body);
     final address = responseData['results'][0]
-        ['formatted_address']; //based on the Geococing API documentation
+        ['formatted_address']; //based on the Geocoding API documentation
     setState(() {
       _isGettingLocation = false;
       _pickedLocation = PlaceLocation(lat, lng, address);
