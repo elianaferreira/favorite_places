@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:favorite_places/widgets/border_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -51,10 +52,7 @@ class _ImageInputState extends State<ImageInput> {
     return Container(
       height: 250,
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: 1,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.3))),
+      decoration: borderDecoration(context),
       alignment: Alignment.center,
       child: content,
     );

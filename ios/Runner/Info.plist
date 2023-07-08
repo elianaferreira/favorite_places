@@ -53,5 +53,7 @@
 	<string>Grant the Camera permission to take a photo of your favorite places.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Grant the microphone permission to record videos of your favorite places.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Grant the location permission to retrieve the location of you place.</string>
 </dict>
 </plist>
