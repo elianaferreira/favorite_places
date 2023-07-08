@@ -1,7 +1,7 @@
 import 'package:favorite_places/utils/constants.dart';
 
 class PlaceLocation {
-  PlaceLocation(this.latitude, this.longitude, this.address);
+  const PlaceLocation(this.latitude, this.longitude, this.address);
 
   final double latitude;
   final double longitude;
