@@ -22,9 +22,10 @@ class _NewPlaceState extends ConsumerState<NewPlaceScreen> {
   }
 
   void _savePlace() {
+    if (_placeTitleController.text.isEmpty) return;
     ref
         .read(placesProvider.notifier)
-        .addFavoritPlace(Place(title: _placeTitleController.text));
+        .addFavoritePlace(Place(title: _placeTitleController.text));
     Navigator.of(context).pop();
   }
 

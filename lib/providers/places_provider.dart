@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:favorite_places/models/place.dart';
 
 class PlacesNotifier extends StateNotifier<List<Place>> {
-  PlacesNotifier() : super([]);
+  PlacesNotifier()
+      : super(
+            const []); // added const to ensure no make the mistake of update the data
 
-  void addFavoritPlace(Place place) {
+  void addFavoritePlace(Place place) {
     final placeWasSavedBefore = state.contains(place);
     if (!placeWasSavedBefore) state = [...state, place];
   }

@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:favorite_places/providers/places_provider.dart';
 import 'package:favorite_places/screens/new_place.dart';
 import 'package:favorite_places/widgets/place_item.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PlacesScreen extends ConsumerWidget {
   const PlacesScreen({super.key});
