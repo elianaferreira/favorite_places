@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:favorite_places/models/place.dart';
 import 'package:favorite_places/providers/places_provider.dart';
 import 'package:favorite_places/widgets/image_input.dart';
@@ -15,6 +17,7 @@ class NewPlaceScreen extends ConsumerStatefulWidget {
 
 class _NewPlaceState extends ConsumerState<NewPlaceScreen> {
   final _placeTitleController = TextEditingController();
+  File? _selectedImage;
 
   @override
   void dispose() {
@@ -23,10 +26,9 @@ class _NewPlaceState extends ConsumerState<NewPlaceScreen> {
   }
 
   void _savePlace() {
-    if (_placeTitleController.text.isEmpty) return;
-    ref
-        .read(placesProvider.notifier)
-        .addFavoritePlace(Place(title: _placeTitleController.text));
+    if (_placeTitleController.text.isEmpty || _selectedImage == null) return;
+    ref.read(placesProvider.notifier).addFavoritePlace(
+        Place(title: _placeTitleController.text, image: _selectedImage!));
     Navigator.of(context).pop();
   }
 
@@ -34,7 +36,7 @@ class _NewPlaceState extends ConsumerState<NewPlaceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Add New Place')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
@@ -45,7 +47,11 @@ class _NewPlaceState extends ConsumerState<NewPlaceScreen> {
                   const InputDecoration(label: Text('Type a place name')),
             ),
             const SizedBox(height: 16),
-            const ImageInput(),
+            ImageInput(
+              onPickImage: (image) {
+                _selectedImage = image;
+              },
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
                 onPressed: _savePlace, child: const Text('Save Place'))
